@@ -5,19 +5,35 @@ session_start();
 
 require_once 'inc.php';
 
+
+// ------------------------------
+
+
+// Start of Page with some functions
+
 html_head("Profile Page");
 
-navbar();
+navbar('bgimg_index_logged');
 HelpButton();
 
 
-if($_SESSION['user'] == "") {
+// ------------------------------
+
+
+// If User isn't logged => Access denied | else show the code
+
+if( !isset($_SESSION['user']) ) {
 access();
 } else {
 
 
 pageFade();
 
+
+// ------------------------------
+
+
+// Connection to DB and selecting profiles table by UserID
 
 $conn = connect_db();
 
@@ -29,7 +45,11 @@ $row = mysqli_fetch_array($result, MYSQL_ASSOC);
 mysqli_close($conn);
 
 
-echo "<body class='bgimg_index_logged'>";
+
+// ------------------------------
+
+
+// Start of HTML Code with PHP array variables from the Select Query
 
 ?>
 

@@ -5,13 +5,24 @@ session_start();
 
 require_once 'inc.php';
 
+
+// ------------------------------
+
+
+// Start of Page with some functions
+
 html_head("Challenges Crossroads");
 
-navbar();
+navbar('bgimg_index_logged');
 HelpButton();
 
 
-if($_SESSION['user'] == "") {
+// ------------------------------
+
+
+// If User is logged => get his name an announce it as pop-up
+
+if( !isset($_SESSION['user']) ) {
 access();
 } else {
 // select loggedin users detail
@@ -23,8 +34,8 @@ access();
 
 pageFade();
 
-
-echo "<body class='bgimg_index_logged'>";
+// Pop up |
+//        V
     
 if($_SESSION['log'] == 1)
 {
@@ -43,6 +54,13 @@ swal({
 $_SESSION['log'] = 0;
 }
 
+
+// ------------------------------
+
+
+// Start of HTML Code with Javascript function on Admin Features
+
+
 ?>
 
 <div class="w3-container mySlides">
@@ -52,7 +70,7 @@ $_SESSION['log'] = 0;
 
 <p>- Challenges</p>
 
-<p>- Speedrunning</p>
+<p>- Speedrunning UwU</p>
 
 <form method="post" action="profile.php" style="margin-left: -12%;"><input type="hidden" name="user" value="<?php echo $_SESSION['user']; ?>"><input type="submit" class="w3-btn w3-transparent w3-round-large w3-text-black" style="padding: 0 22%; margin-left: 9%;" value="- Profile Page" /></form>
 

@@ -1,5 +1,7 @@
 <?php
 
+// Global Color Variables [Not in use rn!]
+
 $clr_x1 = "blue";
 $clr_x2 = "pink";
 $clr_x3 = "deep-orange";
@@ -9,13 +11,35 @@ $clr_x6 = "lime";
 $clr_x7 = "orange";
 
 
+// ------------------------------
+
+
+// Database connection
+
+function connect_db()
+{
+
 // IMPORTANT TO SET TO CONNECT TO DB
 $dbUsername = "";
 $dbPassword = "";
-// ----------------
+
+// DATABASE
+ $dbhost = 'localhost';
+ $dbuser = $dbUsername;
+ $dbpass = $dbPassword;
+ $dbname = 'dauntless-challenges'; 
+
+ $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+    if( mysqli_connect_errno() ) {
+        die('Cannot connect [1]: ' . mysqli_error());
+    }
+ mysqli_set_charset($conn, 'utf8');
+
+ return $conn;
+}
 
 
-
+// This is the Help Button in the bottom-right corner with popping box
 
 function HelpButton() {
 echo <<<END
@@ -47,10 +71,14 @@ function Help() {
 END;
 }
 
+
+// ------------------------------
+
+
+// Work In Progress Function => Writes everything important to say it's WIP
+
 function WIP() {
 echo <<<END
-
-<body class="bgimg_coming">
 
 <div class='w3-display-middle w3-text-white Oswald'>
 <p class='w3-jumbo animation-target'>COMING SOON</p>
@@ -60,6 +88,12 @@ echo <<<END
 
 END;
 }
+
+
+// ------------------------------
+
+
+// Script Function to FadeIn the page, what a magic
 
 function pageFade() {
 echo <<<END
@@ -73,6 +107,20 @@ $(document).ready(function () {
 
 END;
 }
+
+
+
+
+
+
+
+
+
+
+// ------------------------------
+// # SUPPORT FUNCTIONS # [Hidden for now]
+
+// Definition of Bronze Monthly Suporter
 
 function BronzeCard() {
 echo <<<END
@@ -89,6 +137,12 @@ echo <<<END
 END;
 }
 
+
+// ------------------------------
+
+
+// Definition of Silver Monthly Suporter
+
 function SilverCard() {
 echo <<<END
     
@@ -103,6 +157,12 @@ echo <<<END
     
 END;
 }
+
+
+// ------------------------------
+
+
+// Definition of Gold Monthly Suporter
 
 function GoldCard() {
 echo <<<END
@@ -119,6 +179,11 @@ echo <<<END
 END;
 }
 
+
+// ------------------------------
+
+
+// Support Layout with cards
 
 function SupportUs() {
 ?>
@@ -150,6 +215,12 @@ function SupportUs() {
 <?php
 }
 
+
+// ------------------------------
+
+
+// Donations Button and pop-up window [Not Hidden]
+
 function Donate() {
 ?>
 
@@ -179,6 +250,12 @@ function Donate() {
 
 <?php
 }
+
+
+// ------------------------------
+
+
+// Donation Cards with amount to be donated to achieve them
 
 function Donor() {
 echo <<<END
@@ -212,7 +289,7 @@ function SupportBack() {
     </div>
     
     <div class="w3-col l3 m12 s12 w3-card-4 w3-text-dark-grey w3-margin-large w3-round-xxlarge DonCard" id="Silver">
-        <p class="w3-xxlarge w3-center w3-purple DonRound w3-padding-large">Color Name</p>
+        <p class="w3-xxlarge w3-center w3-purple DonRound w3-padding-large">Colored Name</p>
             
         <p class="w3-xlarge w3-padding-large w3-margin-left">- Only Purple for now</p>
             
@@ -225,6 +302,23 @@ function SupportBack() {
 
 END;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------
+
+
+// Landing Page when you write dauntless-challenges.com
 
 function Landing() {
 echo <<<END
@@ -253,6 +347,11 @@ END;
 }
 
 
+// ------------------------------
+
+
+// Access check if User is logged in where he/she has to be logged in
+
 function access() {
 echo <<<END
 
@@ -268,6 +367,11 @@ swal({
 END;
 }
 
+
+// ------------------------------
+
+
+// Loading function for LOOOOONG loadings [Not in use rn]
 
 function loading() {
 echo <<<END
@@ -285,6 +389,23 @@ swal({
 END;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------
+
+
+// Admin Button for access to Admin Features from Tavern
+
 function AdminButton($name) {
 ?>
     <script>
@@ -299,22 +420,49 @@ function AdminButton($name) {
 <?php  
 }
 
+
+// ------------------------------
+
+
+// Admin Categories and it's managing
+
 function AdminCat($name) {
+
+$conn = connect_db();
+
+	$sql = "SELECT * FROM ". $name;
+	$res = mysqli_query($conn, $sql);
+
+	$count = mysqli_num_rows($res);
+
+mysqli_close($conn);
+
+
 ?>
     
     <div class="w3-container w3-display-middle w3-center w3-text-white" style="width: 40%;" id="<?php echo $name; ?>" hidden>
         <p class="w3-xxlarge animation-target"><?php echo ucwords($name); ?></p>
         
         <form method="post" action="<?php echo $name; ?>-edit.php">
-        <select class='w3-select w3-text-white w3-xxxlarge w3-transparent' style="margin-top: 5%;" name='<?php echo $name; ?>' id='<?php echo $name; ?>' required>
-            <option>Heelo</option>
+        <select class='w3-select w3-text-white w3-xxlarge w3-transparent' style="margin-top: 5%;" name='value' id='<?php echo $name; ?>'>
+            <?php
+			 if($count == 0) echo "<option class='w3-xxlarge w3-text-black'>There are no rows</option>";
+			 else {
+				if($name == "titles") while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) { echo "<option class='w3-xxlarge w3-text-black' value='". $row['id_title'] ."'>". $row['name'] ."</option>"; }
+				if($name == "runs") while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) { echo "<option class='w3-xxlarge w3-text-black' value='". $row['id_run'] ."'>". $row['name'] ."</option>"; }
+				if($name == "parties") while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) { echo "<option class='w3-xxlarge w3-text-black' value='". $row['id_party'] ."'>". $row['name'] ."</option>"; }
+				if($name == "difficulties") while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) { echo "<option class='w3-xxlarge w3-text-black' value='". $row['id_difficulty'] ."'>". $row['name'] ."</option>"; }
+				if($name == "guilds") while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) { echo "<option class='w3-xxlarge w3-text-black' value='". $row['id_guild'] ."'>". $row['name'] ."</option>"; }
+				if($name == "weapons") while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) { echo "<option class='w3-xxlarge w3-text-black' value='". $row['id_weapon'] ."'>". $row['name'] ."</option>"; }
+			 }
+			?>
         </select>
         
         <div class='w3-xlarge w3-center' style='margin-top: 2%;'>
-            <a href="<?php echo $name; ?>-add.php" class="w3-btn w3-transparent w3-text-lime w3-border w3-border-lime w3-padding-large">Add</a>
-            <input type='submit' value='Edit' name='Send' class='w3-btn w3-transparent w3-text-cyan w3-border w3-border-cyan w3-padding-large' style='margin-left: 10%;' />
+			<a href="<?php echo $name; ?>-add.php" class="w3-btn w3-transparent w3-text-lime w3-border w3-border-lime w3-padding-large" style="margin-left: -1%;">Add</a>
+            <input type='submit' value='Edit' name='Send' class='w3-btn w3-transparent w3-text-cyan w3-border w3-border-cyan w3-padding-large' style='margin-left: 10%;' <?php if($count == 0) echo "disabled" ?> />
             <input type='reset' value='Reset' class='w3-btn w3-transparent w3-text-red w3-border w3-border-red w3-padding-large' style='margin-left: 10%;' />
-            <a href="tavern.php" class="w3-btn w3-transparent w3-text-light-grey w3-border w3-border-flat-light-grey w3-padding-large" style='margin-left: 10%;'>Back</a>
+			<a href="tavern.php" class="w3-btn w3-transparent w3-text-light-grey w3-border w3-border-flat-light-grey w3-padding-large" style='margin-left: 10%;'>Back</a>
         </div>
         </form>
     </div>
@@ -327,6 +475,13 @@ function AdminCat($name) {
 
 
 
+
+
+
+// ------------------------------
+
+
+// Header of every file
 
 function html_head($title) {
 echo <<<END
@@ -341,7 +496,7 @@ echo <<<END
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="css/w3.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
         <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave+Display" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Passero+One" rel="stylesheet">
@@ -400,6 +555,14 @@ function showDivs(n) {
   x[slideIndex-1].style.display = "block";  
 }
 
+	function limitText(limitField, limitCount, limitNum) {
+		if (limitField.value.length > limitNum) {
+			limitField.value = limitField.value.substring(0, limitNum);
+		} else {
+			limitCount.value = limitNum - limitField.value.length;
+		}
+	}
+
 
 </script>
 
@@ -409,8 +572,13 @@ END;
 }
 
 
-function navbar() {
-// prevzeti globalnich promennych do funkce
+// ------------------------------
+
+
+// Navbar function 
+
+function navbar($body_class) {
+// Taking the global colors [As said not in use rn]
 $clr_x1 = $GLOBALS['clr_x1'];
 $clr_x2 = $GLOBALS['clr_x2'];
 $clr_x3 = $GLOBALS['clr_x3'];
@@ -419,6 +587,9 @@ $clr_x5	= $GLOBALS['clr_x5'];
 $clr_x6	= $GLOBALS['clr_x6'];
 $clr_x7	= $GLOBALS['clr_x7'];
 
+
+
+echo "<body class=". $body_class .">";
 
 ?>
 
@@ -479,6 +650,15 @@ $clr_x7	= $GLOBALS['clr_x7'];
 <?php
 }
 
+
+
+
+
+// ------------------------------
+
+
+// Get functions for all kinds of enhancement
+
 function getUser($id) {
 $conn = connect_db();
 
@@ -491,6 +671,8 @@ $gotValue = mysqli_fetch_array($sql_res, MYSQL_ASSOC);
 
 return $gotValue['name'];
 }
+
+// ------------------------------
 
 function getUserPerm($id) {
 $conn = connect_db();
@@ -505,6 +687,8 @@ $gotValue = mysqli_fetch_array($sql_res, MYSQL_ASSOC);
 return $gotValue['permission'];
 }
 
+// ------------------------------
+
 function getUserID($id) {
 $conn = connect_db();
 
@@ -517,6 +701,8 @@ $gotValue = mysqli_fetch_array($sql_res, MYSQL_ASSOC);
 
 return $gotValue['id_user'];
 }
+
+// ------------------------------
 
 function getGuild($id) {
 $conn = connect_db();
@@ -531,6 +717,8 @@ $gotValue = mysqli_fetch_array($sql_res, MYSQL_ASSOC);
 return $gotValue['shortcut'];
 }
 
+// ------------------------------
+
 function getTitle($id) {
 $conn = connect_db();
 
@@ -544,18 +732,22 @@ $gotValue = mysqli_fetch_array($sql_res, MYSQL_ASSOC);
 return $gotValue['name'];
 }
 
+// ------------------------------
+
 function getWeapon($id) {
 $conn = connect_db();
 
-$sql='SELECT type FROM weapons WHERE id_weapon='. $id;
+$sql='SELECT name FROM weapons WHERE id_weapon='. $id;
 $sql_res = mysqli_query($conn, $sql);
 
 mysqli_close($conn);
 
 $gotValue = mysqli_fetch_array($sql_res, MYSQL_ASSOC);
 
-return $gotValue['type'];
+return $gotValue['name'];
 }
+
+// ------------------------------
 
 function getBadgeImage($id) {
 $conn = connect_db();
@@ -570,6 +762,8 @@ $gotValue = mysqli_fetch_array($sql_res, MYSQL_ASSOC);
 return $gotValue['image'];
 }
 
+// ------------------------------
+
 function getBadgeDesc($id) {
 $conn = connect_db();
 
@@ -582,6 +776,8 @@ $gotValue = mysqli_fetch_array($sql_res, MYSQL_ASSOC);
 
 return nl2br($gotValue['note']);
 }
+
+// ------------------------------
 
 function getBadgeEXP($id) {
 $conn = connect_db();
@@ -596,6 +792,8 @@ $gotValue = mysqli_fetch_array($sql_res, MYSQL_ASSOC);
 return nl2br($gotValue['exp']);
 }
 
+// ------------------------------
+
 function getBadgeName($id) {
 $conn = connect_db();
 
@@ -609,21 +807,8 @@ $gotValue = mysqli_fetch_array($sql_res, MYSQL_ASSOC);
 return nl2br($gotValue['name']);
 }
 
-function connect_db()
-{
-// DATABASE
- $dbhost = 'localhost';
- $dbuser = $dbUsername;
- $dbname = 'dauntless-challenges';
- $dbpass = $dbPassword;
+// ------------------------------
 
- $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-    if( mysqli_connect_errno() ) {
-        die('Cannot connect [1]: ' . mysqli_error());
-    }
- mysqli_set_charset($conn, 'utf8');
 
- return $conn;
-}
 
 ?>

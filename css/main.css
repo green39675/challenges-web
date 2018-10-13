@@ -1,3 +1,5 @@
+/* Navigation Bar style */
+
 .web-bar {
    border-radius: 50px;
    
@@ -8,6 +10,12 @@
    margin-right: auto;
    margin-top: 25px;
 }
+
+
+/* ------------------------------ */
+
+
+/* Custom Fonts */
 
 .Oswald {
    font-family: "Oswald";
@@ -22,8 +30,10 @@
 }
 
 
+/* ------------------------------ */
 
 
+/* Brand Colors */
 
 .brand-dark-blue {
     background-color: #1C2533;
@@ -38,13 +48,15 @@
 }
 
 .brand-red {
-    background: #b30000 !important;
+    background: #aa0909 !important;
 }
 
 
 
+/* ------------------------------ */
 
 
+/* Custom CSS for Elements */
 
 .web-jumbo {
         font-size: 96px;
@@ -84,14 +96,10 @@
 }
 
 
+/* ------------------------------ */
 
 
-
-
-
-
-
-
+/* Box Styles */
 
 .PaperBox {
     background-image: url("../images/old_paper.png");
@@ -195,7 +203,7 @@
 
 
 .NewSBox {
-    background-image: url("images/registerBox.jpg");
+    background-image: url("../images/registerBox.jpg");
     background-size: cover;
     
     width: 100%;
@@ -212,7 +220,7 @@
 }
 
 .ReturnSBox {
-    background-image: url("images/loginBox.jpg");
+    background-image: url("../images/loginBox.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -262,17 +270,10 @@
 }
 
 
+/* ------------------------------ */
 
 
-
-
-
-
-
-
-
-
-
+/* Background Styles */
 
 @media only screen and (max-width:600px){
   .bgimg_index {
@@ -341,11 +342,10 @@
 }
 
 
+/* ------------------------------ */
 
 
-
-
-
+/* ID Styles and CSS Animations */
 
 #badge {
     opacity: 0;
